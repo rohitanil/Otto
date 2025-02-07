@@ -1,5 +1,5 @@
 CREATE TABLE judges (
-    id CHAR(36) PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     judge_number INT,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
@@ -8,7 +8,7 @@ CREATE TABLE judges (
 );
 
 CREATE TABLE abstracts (
-    id CHAR(36) PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     poster_number INT,
     title TEXT,
     abstract TEXT,
