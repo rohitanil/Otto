@@ -26,14 +26,21 @@ def insert_judges(data):
     connection = get_db_connection()
     cursor = connection.cursor()
     query = """
-        INSERT INTO judges (id, judge_number, first_name, last_name, department, hour_available)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """
+            INSERT INTO judges (id, judge_number, first_name, last_name, department, hour_available, poster_count, research_interests)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
 
     for _, row in data.iterrows():
         cursor.execute(query, (
-            str(uuid.uuid4()), row["Judge"], row["Judge FirstName"], row["Judge LastName"], row["Department"],
-            row["Hour available"]))
+            str(uuid.uuid4()),  # Generate UUID for id
+            int(row["Judge"]),  # Ensure integer for judge_number
+            row["Judge FirstName"],
+            row["Judge LastName"],
+            row["Department"],
+            row["Hour available"],
+            0,  # Default poster_count to 0
+            None  # Insert NULL explicitly
+        ))
 
     connection.commit()
     cursor.close()
