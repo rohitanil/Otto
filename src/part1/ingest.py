@@ -1,19 +1,7 @@
 import pandas as pd
 import mysql.connector
 import uuid
-
-# Database connection configuration
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "user",
-    "password": "password",
-    "database": "research"
-}
-
-
-# Connect to MySQL database
-def get_db_connection():
-    return mysql.connector.connect(**DB_CONFIG)
+from db_connection import get_db_connection
 
 
 # Read Excel files
