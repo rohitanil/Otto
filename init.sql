@@ -6,7 +6,8 @@ CREATE TABLE judges (
     department VARCHAR(100),
     hour_available VARCHAR(50),
     poster_count INT NOT NULL DEFAULT 0,
-    research_interests TEXT DEFAULT NULL
+    research_interests TEXT DEFAULT NULL,
+    research_labels TEXT DEFAULT NULL
 );
 
 CREATE TABLE abstracts (

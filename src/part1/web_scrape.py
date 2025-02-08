@@ -1,12 +1,15 @@
-import time
+import os
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from rapidfuzz import process, fuzz
+from anthropic import Anthropic
+from db_connection import get_cursor
+
 options = Options()
 options.add_argument("--headless=new")
 driver = webdriver.Chrome(options=options)
-from db_connection import get_cursor
 
 url = "https://ecs.syracuse.edu/faculty-staff/?category=0&people="
 faculty_data = {}
@@ -45,6 +48,7 @@ def save_to_file():
         for prof, text in faculty_data.items():
             f.write(f"{prof}\n{'=' * 50}\n{text}\n\n")
 
+
 def name_match_service():
     conn, cursor = get_cursor()
     cursor.execute("SELECT first_name, last_name FROM judges")
@@ -60,7 +64,7 @@ def name_match_service():
         if match_data:
             match, score, _ = match_data
 
-            if score > 78: 
+            if score > 78:
                 first_name, last_name = db_name_dict[match]
                 research_text = faculty_data[faculty_name]
 
@@ -68,7 +72,6 @@ def name_match_service():
                 print(f"Matched {faculty_name} -> {match} (Score: {score})")
             else:
                 unmatched.append(faculty_name)
-
 
     update_query = """
         UPDATE judges 
@@ -92,6 +95,52 @@ def name_match_service():
     conn.close()
 
 
+def generate_research_categories_prompt(research_text: str) -> str:
+    """Generate a structured prompt to extract the top 10 research categories from a given research text."""
+    prompt = f"""As a research expert, analyze the following research text and provide the top 10 research categories that best describe the research areas covered.
+
+    Research Text:
+    {research_text}
+
+    Please provide the top 10 research labels relevant to this research text as a comma-separated list. Do not add unnecessary text, just the answer."""
+    return prompt
+
+
+def get_research_labels(research_text):
+    """Call Claude API to get research labels for the given research text."""
+    api_key = os.getenv("ANTHROPIC_KEY")
+    client = Anthropic(api_key=api_key)
+    prompt = generate_research_categories_prompt(research_text)
+
+    response = client.messages.create(
+        model="claude-3-5-sonnet-latest",
+        max_tokens=100,
+        temperature=0,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text.strip()
+
+
+def generate_research_labels():
+    """Fetch research interests, generate research labels, and update the judges table."""
+    conn, cursor = get_cursor()
+    cursor.execute("SELECT id, research_interests FROM judges WHERE research_interests IS NOT NULL")
+    judges = cursor.fetchall()
+
+    for judge in judges:
+        judge_id = judge[0]
+        research_text = judge[1]
+        research_labels = get_research_labels(research_text)
+        print(judge_id, research_labels)
+        cursor.execute(
+            "UPDATE judges SET research_labels = %s WHERE id = %s",
+            (research_labels, judge_id)
+        )
+    conn.commit()
+    print("Updated research labels successfully.")
+
+
 scrape_data()
-save_to_file()
 name_match_service()
+generate_research_labels()
+
