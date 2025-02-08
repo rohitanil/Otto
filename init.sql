@@ -19,3 +19,13 @@ CREATE TABLE abstracts (
     advisor_last_name VARCHAR(100),
     program VARCHAR(100)
 );
+
+CREATE TABLE poster_judge_mapping (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    poster_number INT,
+    J1 DOUBLE DEFAULT 0,
+    J2 DOUBLE DEFAULT 0,
+    J3 DOUBLE DEFAULT 0,
+    J4 DOUBLE DEFAULT 0,
+    J5 DOUBLE DEFAULT 0,
+);
