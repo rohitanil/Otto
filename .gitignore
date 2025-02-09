@@ -1,5 +1,8 @@
 .idea
 final_ranking.txt
+src/part1/output
+src/part2/resources
+src/part3/output
 # Python cache
 __pycache__/
 *.pyc
