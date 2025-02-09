@@ -3,6 +3,7 @@ from mysql.connector import Error
 from src.part1.db_connection import get_db_connection
 from tie_breaker import tie_resolution
 
+
 def get_rank():
     try:
         conn = get_db_connection()
@@ -37,4 +38,6 @@ def get_rank():
             conn.close()
             print('Connection closed')
 
-get_rank()
+
+if __name__ == "__main__":
+    get_rank()
