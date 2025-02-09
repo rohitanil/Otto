@@ -1,5 +1,6 @@
 import db_connection as db
 import pandas as pd
+import os
 
 def file1():
     conn, cursor = db.get_cursor()
@@ -23,7 +24,9 @@ def file1():
                "Judge-2"]
     df = pd.DataFrame(rows, columns=columns)
     df = df.sort_values(by="Poster Number", ascending=True)
-    excel_filename = "output/abstracts_with_judges.xlsx"
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)  # Creates the folder if it doesn't exist
+    excel_filename = os.path.join(output_dir,"output/abstracts_with_judges.xlsx")
     df.to_excel(excel_filename, index=False)
     print(f"Excel file '{excel_filename}' generated successfully.")
     cursor.close()
@@ -61,7 +64,10 @@ def file2():
 
     df = pd.DataFrame(rows, columns=columns)
     df = df.sort_values(by="Judge Number", ascending=True)
-    excel_filename = "output/judges_with_posters.xlsx"
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
+
+    excel_filename = os.path.join(output_dir,"output/judges_with_posters.xlsx")
     df.to_excel(excel_filename, index=False)
     cursor.close()
     conn.close()
@@ -95,8 +101,11 @@ def file3():
     # Create a complete 0-1 matrix including all posters and all judges
     matrix_df = df.pivot(index="Poster Number", columns="Judge Number", values="Assigned").fillna(0)
 
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
+
     # Save DataFrame to an Excel file
-    excel_filename = "output/poster_judge_full_matrix.xlsx"
+    excel_filename = os.path.join(output_dir, "poster_judge_full_matrix.xlsx")
     matrix_df.to_excel(excel_filename)
 
     # Close database connection

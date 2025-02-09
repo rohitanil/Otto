@@ -58,5 +58,5 @@ def insert_abstracts():
     cursor.close()
     connection.close()
 
-
-print("Data inserted successfully!")
+#
+# print("Data inserted successfully!")
