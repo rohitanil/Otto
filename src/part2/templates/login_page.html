@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Login</title>
+    <link rel="stylesheet" href="static/login_styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Judge Login</h2>
+        <form id="login-form">
+            <input type="text" id="judge_id" placeholder="Enter Judge ID" required><br>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+        <p id="message" class="error-message"></p>
+    </div>
+
+    <script>
+        function login() {
+            const judgeId = document.getElementById("judge_id").value;
+            
+            if (!judgeId) {
+                document.getElementById("message").innerText = "Please enter a Judge ID.";
+                return;
+            }
+    
+            // Redirect to dashboard without authentication
+            window.location.href = `/dashboard?judge_id=${judgeId}`;
+        }
+    </script>    
+</body>
+</html>
