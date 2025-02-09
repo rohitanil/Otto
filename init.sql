@@ -42,3 +42,4 @@ CREATE TABLE poster_score (
     FOREIGN KEY (judge2_id) REFERENCES judges(id) ,
     FOREIGN KEY (abstract_id) REFERENCES abstracts(id)
 )ENGINE=InnoDB;
+
