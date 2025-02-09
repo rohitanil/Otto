@@ -7,10 +7,11 @@ def get_prompt(abstract, judges, top_k):
         Given the following research abstract:
         {abstract}
 
-        Rank the top {top_k} professors based on their research interests. The list of professors is given below:
+        Rank the top 5 professors based on their research interests. The list of professors is given below:
         {judges}
 
-        Return a JSON list of dictionaries with 'name', 'id', and 'relevance_score' fields sorted by relevance.
+        Return a JSON list of dictionaries with 'id', and 'relevance_score' fields sorted by relevance. I just need the json list nothing else. No new line characters,
+        weird spacing etc. Do not truncate the output.
         """
     return prompt
 
@@ -26,3 +27,4 @@ def top_k_judges(abstract, judges):
         messages=[{"role": "user", "content": get_prompt(abstract, judges, K)}]
     )
     return response.content[0].text.strip()
+
