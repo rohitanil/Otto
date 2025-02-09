@@ -120,13 +120,16 @@ from flask import Flask, request, jsonify, render_template
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 # Load the Excel file and ensure Judge IDs are strings
-file_path = "/Users/akshaykumar/Downloads/judges.xlsx"
-try:
-    judges_df = pd.read_excel(file_path, dtype=str)  # Convert all columns to strings
-    judges_df.columns = judges_df.columns.map(str)   # Ensure column headers (Judge IDs) are strings
-except Exception as e:
-    print(f"Error loading Excel file: {e}")
-    judges_df = None  # Prevent crashes if the file is missing
+file_path = "judges.xlsx"
+def load_excel():
+    """ Load the judges.xlsx file dynamically on each request """
+    try:
+        judges_df = pd.read_excel(file_path, dtype=str)
+        judges_df.columns = judges_df.columns.map(lambda x: str(x).strip())  # Normalize column names
+        return judges_df
+    except Exception as e:
+        print(f"Error loading Excel file: {e}")
+        return None
 
 @app.route("/")
 def home():
@@ -153,8 +156,9 @@ def login():
 
 @app.route("/dashboard", methods=["GET"])
 def get_assigned_posters():
-    judge_id = request.args.get("judge_id")  # Already a string
+    judge_id = request.args.get("judge_id")
 
+    judges_df = load_excel()
     if judges_df is None or judge_id not in judges_df.columns:
         return jsonify({"success": False, "message": f"Invalid Judge ID: {judge_id}"})
 
@@ -164,7 +168,7 @@ def get_assigned_posters():
     # Generate placeholder titles
     posters_data = [{"id": poster, "title": f"Poster {poster} Title"} for poster in assigned_posters]
 
-    return jsonify({"success": True, "posters": posters_data})
+    return render_template("dashboard.html", judge_id=judge_id, posters=posters_data)
 
 @app.route("/submit_score", methods=["POST"])
 def submit_score():
@@ -172,6 +176,10 @@ def submit_score():
     judge_id = str(data.get("judge_id"))
     poster_id = data.get("poster_id")
     score = data.get("score")
+
+    # Validate required data
+    if not judge_id or not poster_id or score is None:
+        return jsonify({"success": False, "message": "Missing required data: judge_id, poster_id, and score are required."})
 
     # Simulate score storage (print for debugging, later save to Excel or DB)
     print(f"Judge {judge_id} submitted score {score} for Poster {poster_id}")

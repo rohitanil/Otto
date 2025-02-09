@@ -4,79 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Judge Dashboard</title>
-    <link rel="stylesheet" href="dashboard_styles.css">
+    <link rel="stylesheet" href="/static/dashboard_styles.css">
 </head>
 <body>
     <div class="dashboard-container">
-        <h2>Judge Dashboard</h2>
-        <p>Posters Assigned to You</p>
+        <h2>Welcome, Judge {{ judge_id }}</h2>
+        <h3>Assigned Posters</h3>
         <table>
             <thead>
                 <tr>
                     <th>Poster ID</th>
                     <th>Title</th>
                     <th>Score</th>
-                    <th>Submit</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="poster-list">
-                <!-- Posters will be dynamically inserted here -->
+            <tbody>
+                {% for poster in posters %}
+                <tr>
+                    <td>{{ poster.id }}</td>
+                    <td>{{ poster.title }}</td>
+                    <td><input type="number" min="1" max="10" class="score-input" id="score-{{ poster.id }}"></td>
+                    <td><button class="submit-btn" onclick="submitScore('{{ poster.id }}', '{{ judge_id }}')">Submit</button></td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const params = new URLSearchParams(window.location.search);
-            const judgeId = params.get("judge_id");
-    
-            if (!judgeId) {
-                alert("Invalid Judge ID. Please log in again.");
-                window.location.href = "/login_page.html";
-                return;
-            }
-    
-            fetch(`/dashboard?judge_id=${judgeId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const tableBody = document.getElementById("poster-list");
-                        tableBody.innerHTML = ""; // Clear existing data
-    
-                        if (data.posters.length === 0) {
-                            tableBody.innerHTML = "<tr><td colspan='3'>No posters assigned.</td></tr>";
-                            return;
-                        }
-    
-                        data.posters.forEach(poster => {
-                            let row = `
-                                <tr>
-                                    <td>${poster.id}</td>
-                                    <td>${poster.title}</td>
-                                    <td><input type="number" min="1" max="10" class="score-input" id="score-${poster.id}"></td>
-                                    <td><button class="submit-btn" onclick="submitScore('${poster.id}', '${judgeId}')">Submit</button></td>
-                                </tr>
-                            `;
-                            tableBody.innerHTML += row;
-                        });
-                    } else {
-                        alert(data.message || "Failed to fetch poster details.");
-                        window.location.href = "/login_page.html";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching posters:", error);
-                    alert("Error loading posters. Please try again.");
-                });
-        });
-    
         function submitScore(posterId, judgeId) {
             const score = document.getElementById(`score-${posterId}`).value;
             if (!score || score < 1 || score > 10) {
                 alert("Please enter a valid score between 1 and 10.");
                 return;
             }
-    
+
             fetch("/submit_score", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -95,6 +58,6 @@
                 alert("Error submitting score. Please try again.");
             });
         }
-    </script>       
+    </script>
 </body>
 </html>
