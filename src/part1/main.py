@@ -1,9 +1,9 @@
 import traceback
 import ingest
-#import selector
+import selector
 import assignment
 import output
-#import web_scrape
+import web_scrape
 import db_connection as db
 def main():
     print("🚀 Starting the ECS Challenge Project...")
@@ -26,10 +26,10 @@ def main():
         try:
             print("\n🔎 Step 2: Scraping Faculty Profiles for Research Interests from ECS Website...")
             print("🔗 Sit Back, Will take some time (3-5 minutes )...")
-            # web_scrape.scrape_data()
-            # web_scrape.name_match_service()
-            # print("🔗 Creating Faculty's Research Interests Labels using llm\n")
-            # web_scrape.generate_research_labels()
+            web_scrape.scrape_data()
+            web_scrape.name_match_service()
+            print("🔗 Creating Faculty's Research Interests Labels using llm\n")
+            web_scrape.generate_research_labels()
             print("✅ Faculty profiles scraped and matched successfully.\n")
         except Exception as e:
             print("❌ Error in Web Scraping:", str(e))
@@ -41,7 +41,7 @@ def main():
     # if not research_label:
     try:
         print("\n📝 Step 3: Running Abstracts based Judge Scoring using llm ...")
-        #selector.run()
+        selector.run()
         print("✅ Judges scored\n")
     except Exception as e:
         print("❌ Error in Judge Selection:", str(e))
