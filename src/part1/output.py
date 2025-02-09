@@ -26,7 +26,7 @@ def file1():
     df = df.sort_values(by="Poster Number", ascending=True)
     output_dir = "output"
     os.makedirs(output_dir, exist_ok=True)  # Creates the folder if it doesn't exist
-    excel_filename = os.path.join(output_dir,"output/abstracts_with_judges.xlsx")
+    excel_filename = os.path.join(output_dir,"abstracts_with_judges.xlsx")
     df.to_excel(excel_filename, index=False)
     print(f"Excel file '{excel_filename}' generated successfully.")
     cursor.close()
@@ -67,7 +67,7 @@ def file2():
     output_dir = "output"
     os.makedirs(output_dir, exist_ok=True)
 
-    excel_filename = os.path.join(output_dir,"output/judges_with_posters.xlsx")
+    excel_filename = os.path.join(output_dir,"judges_with_posters.xlsx")
     df.to_excel(excel_filename, index=False)
     cursor.close()
     conn.close()
@@ -107,6 +107,10 @@ def file3():
     # Save DataFrame to an Excel file
     excel_filename = os.path.join(output_dir, "poster_judge_full_matrix.xlsx")
     matrix_df.to_excel(excel_filename)
+    output_dir_for_part_2 = "../part2/resources"
+    os.makedirs(output_dir_for_part_2, exist_ok=True)
+    excel_filename2 = os.path.join(output_dir_for_part_2, "poster_judge_full_matrix.xlsx")
+    matrix_df.to_excel(excel_filename2)
 
     # Close database connection
     cursor.close()
@@ -115,4 +119,4 @@ def file3():
     print(f"Excel file '{excel_filename}' generated successfully.")
 # file1()
 # file2()
-# file3()
+file3()
