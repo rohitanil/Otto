@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Judge Login</title>
-    <link rel="stylesheet" href="static/login_styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_styles.css') }}">
 </head>
 <body>
+
     <div class="login-container">
         <h2>Judge Login</h2>
         <form id="login-form">
@@ -29,5 +30,6 @@
             window.location.href = `/dashboard?judge_id=${judgeId}`;
         }
     </script>    
+
 </body>
 </html>

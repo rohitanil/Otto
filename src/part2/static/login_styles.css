@@ -1,17 +1,18 @@
-/* General Page Styling */
-body {
-    font-family: 'Arial', sans-serif;
+/* Full-page centering */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f7f6;
 }
 
 /* Login Container */
 .login-container {
-    width: 100%;
+    width: 90%;
     max-width: 400px;
     padding: 30px;
     background: white;
@@ -27,15 +28,16 @@ h2 {
     font-weight: bold;
 }
 
-/* Input Fields */
+/* Input Field */
 input {
     margin: 10px 0;
     padding: 12px;
-    width: calc(100% - 24px);
+    width: 100%;
     border: 2px solid #ccc;
     border-radius: 8px;
     font-size: 18px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 /* Login Button */
@@ -47,9 +49,10 @@ button {
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
-    width: calc(100% - 24px);
+    width: 100%;
     font-size: 18px;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 button:hover {
@@ -62,4 +65,21 @@ button:hover {
     color: red;
     font-size: 14px;
     margin-top: 10px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .login-container {
+        padding: 25px;
+    }
+    
+    input {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 10px;
+    }
 }
