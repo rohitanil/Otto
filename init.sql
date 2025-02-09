@@ -24,10 +24,15 @@ CREATE TABLE poster_judge_mapping (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
     poster_number INT,
     Judge1 DOUBLE DEFAULT 0,
+    judge1_id INT,
     Judge2 DOUBLE DEFAULT 0,
+    judge2_id INT,
     Judge3 DOUBLE DEFAULT 0,
+    judge3_id INT,
     Judge4 DOUBLE DEFAULT 0,
-    Judge5 DOUBLE DEFAULT 0
+    judge4_id INT,
+    Judge5 DOUBLE DEFAULT 0,
+    judge5_id INT,
 );
 
 CREATE TABLE poster_score (
