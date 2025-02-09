@@ -44,15 +44,32 @@ pip install mysql-connector-python pandas selenium openpyxl rapidfuzz anthropic
 - Docker Composer should createthe db  Schema required for the project. If not, you can create the schema manually using the SQL commands in init.sql file found in root directory.  
 - Also adding a master.sql file with all of the data ( including scraping and llm responses) pre filled , for a just in case scenario if facing any issues with Anthropic Keys or miscellaneous issues. 
 
-```bash 
+
 ### **3️⃣ Required Input Files**
 
 Ensure you have the following input files in the `resources/` directory:
+
 - **Judges List**: `resources/Example_list_judges.xlsx`
 - **Abstracts Data**: `resources/Sample_input_abstracts.xlsx`
 
 These files are required for the ingestion process.
 
+### **4️⃣ Setting Up Anthropic API Key**
+
+This project requires an Anthropic API Key for AI-based judge ranking and research label generation.
+To set it up, add the key as an environment variable:
+
+````
+export ANTHROPIC_KEY="your_anthropic_api_key"
+````
+
+Or, if using Windows Command Prompt:
+
+````
+set ANTHROPIC_KEY=your_anthropic_api_key
+````
+
+Make sure this environment variable is accessible before running the project.
 ## 🚀 **How to Run the Project**
 
 After setting up dependencies and the database, run:
