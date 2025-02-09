@@ -56,7 +56,7 @@ CREATE TABLE poster_score_summary (
 DELIMITER //
 
 CREATE TRIGGER after_insert_poster_score
-AFTER INSERT ON poster_score
+AFTER UPDATE ON poster_score
 FOR EACH ROW
 BEGIN
     DECLARE avg_score DOUBLE;
