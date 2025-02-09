@@ -35,11 +35,12 @@ def scrape_data():
         # time.sleep(1)
         page_text = driver.find_element(By.CLASS_NAME, "entry-content").text.strip()
         faculty_data[name] = page_text
-        print(f"Scraped {name}'s profile.")
+        #print(f"Scraped {name}'s profile.")
     driver.quit()
+    print(f"Scraped {len(faculty_data)} faculty profiles successfully!")
 
-    for key, value in list(faculty_data.items())[:2]:
-        print(f"\n🔹 {key}: {value[:500]}...\n")
+    # for key, value in list(faculty_data.items())[:2]:
+    #     print(f"\n🔹 {key}: {value[:500]}...\n")
 
 
 def save_to_file():
@@ -64,12 +65,12 @@ def name_match_service():
         if match_data:
             match, score, _ = match_data
 
-            if score > 78:
+            if score > 70:
                 first_name, last_name = db_name_dict[match]
                 research_text = faculty_data[faculty_name]
 
                 updates.append((research_text, first_name, last_name))
-                print(f"Matched {faculty_name} -> {match} (Score: {score})")
+                # print(f"Matched {faculty_name} -> {match} (Score: {score})")
             else:
                 unmatched.append(faculty_name)
 
@@ -84,13 +85,7 @@ def name_match_service():
 
     print(f"✅ Updated {len(updates)} records successfully!")
 
-    # # Log unmatched names
-    # if unmatched:
-    #     print("\n⚠️ Unmatched Names:")
-    #     for name in unmatched:
-    #         print(f" - {name}")
 
-    # Close connection
     cursor.close()
     conn.close()
 

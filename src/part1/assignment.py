@@ -16,18 +16,16 @@ def fetch_poster_data():
         cursor.execute(query)
         rows = cursor.fetchall()
         df = pd.DataFrame(rows)
-        return df
+        columns = ["id", "poster_number", "judge1_id", "judge1_score", "judge2_id", "judge2_score", "judge3_id",
+                   "judge3_score", "judge4_id", "judge4_score", "judge5_id", "judge5_score"]
+        data_frame = pd.DataFrame(df, columns=columns)
+        return data_frame
     finally:
         if cursor:
             cursor.close()
         conn.close()
-data = fetch_poster_data()
-columns = ["id", "poster_number", "judge1_id", "judge1_score", "judge2_id", "judge2_score", "judge3_id", "judge3_score", "judge4_id", "judge4_score", "judge5_id", "judge5_score"]
-data_frame = pd.DataFrame(data, columns=columns)
 
-
-def calculate_delta(poster_ids,i):
-    df = data_frame.copy()
+def calculate_delta(df,poster_ids,i):
     df.set_index("poster_number", inplace=True)
     delta_dict = {}
     for id in poster_ids:
@@ -42,7 +40,7 @@ def calculate_delta(poster_ids,i):
 
 
 
-def check_for_conflicts(judge_id,i):
+def check_for_conflicts(data,judge_id,i):
     poster_ids = []
     count = 0
     for _, row in data.iterrows():
@@ -52,17 +50,17 @@ def check_for_conflicts(judge_id,i):
             count += 1
 
     if(count > max_posters_per_judge):
-        calculate_delta(poster_ids,i)
+        calculate_delta(data,poster_ids,i)
         return True
     return False
 
-def assign_judges(df):
-
+def assign_judges():
+    df = fetch_poster_data()
     for _, row in df.iterrows():
         for i in range(1,6):
             if (len(poster_assignments.get(row["poster_number"],[])) < 2):
                 judge_id = row[f"judge{i}_id"]
-                check_for_conflicts(judge_id, i)
+                check_for_conflicts(df,judge_id, i)
                 if judge_assignments[judge_id] < max_posters_per_judge:
                     poster_assignments.setdefault(row["poster_number"],[]).append([judge_id])
                     judge_assignments[judge_id] += 1
@@ -71,8 +69,6 @@ def assign_judges(df):
     assigned_df = pd.DataFrame(list(poster_assignments.items()), columns=["poster_number", "assigned_judges"])
     return assigned_df
 
-assigned_df = assign_judges(data)
-print(assigned_df)
 
 def save_to_db():
     judge_query = "SELECT id FROM judges j WHERE j.judge_number = %s"
@@ -111,5 +107,5 @@ def save_to_db():
     conn.commit()
     cursor.close()
     conn.close()
-
+assign_judges()
 save_to_db()
