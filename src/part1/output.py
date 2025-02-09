@@ -25,6 +25,7 @@ def file1():
     df = df.sort_values(by="Poster Number", ascending=True)
     excel_filename = "abstracts_with_judges.xlsx"
     df.to_excel(excel_filename, index=False)
+    print(f"Excel file '{excel_filename}' generated successfully.")
     cursor.close()
     conn.close()
 
@@ -103,6 +104,6 @@ def file3():
     conn.close()
 
     print(f"Excel file '{excel_filename}' generated successfully.")
-file1()
-file2()
-file3()
+# file1()
+# file2()
+# file3()

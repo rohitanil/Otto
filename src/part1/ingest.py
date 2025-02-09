@@ -10,6 +10,8 @@ def read_excel(file_path):
 
 # Insert data into judges table
 def insert_judges(data):
+    judges_file = "resources/Example_list_judges.xlsx"
+    judges_data = read_excel(judges_file)
     data = data.dropna()
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -37,6 +39,8 @@ def insert_judges(data):
 
 # Insert data into abstracts table
 def insert_abstracts(data):
+    abstracts_file = "resources/Sample_input_abstracts.xlsx"
+    abstracts_data = read_excel(abstracts_file)
     data = data.dropna()
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -54,16 +58,5 @@ def insert_abstracts(data):
     cursor.close()
     connection.close()
 
-
-# File paths
-judges_file = "resources/Example_list_judges.xlsx"
-abstracts_file = "resources/Sample_input_abstracts.xlsx"
-
-# Read and insert data
-judges_data = read_excel(judges_file)
-abstracts_data = read_excel(abstracts_file)
-
-insert_judges(judges_data)
-insert_abstracts(abstracts_data)
 
 print("Data inserted successfully!")

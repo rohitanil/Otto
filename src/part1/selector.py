@@ -89,8 +89,8 @@ def fetch_research_judges():
     return judges
 
 
-research_judges = fetch_research_judges()
-research_abstracts = fetch_research_abstracts()
+
+
 
 
 def constraints(abst):
@@ -98,7 +98,7 @@ def constraints(abst):
     even = True
     if (abst.poster_number % 2):
         even = False
-
+    research_judges = fetch_research_judges()
     for judge in research_judges:
         if constraint_odd_even(even, judge.hour_available) and constraint_career_advisor(abst, judge):
             judge_dict[judge.judge_number] = {
@@ -154,6 +154,7 @@ def get_llm_scores(abstract_text, judges_dict):
 
 
 def run():
+    research_abstracts = fetch_research_abstracts()
     for abstract in research_abstracts:
         list_judges = constraints(abstract)
         llm_data = get_llm_scores(abstract.abstract, list_judges)
@@ -162,4 +163,4 @@ def run():
         insert_data(parsed_data, abstract.poster_number, abstract.id)
 
 
-run()
+# run()

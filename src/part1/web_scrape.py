@@ -135,7 +135,7 @@ def generate_research_labels():
     print("Updated research labels successfully.")
 
 
-scrape_data()
-name_match_service()
-generate_research_labels()
-
+# scrape_data()
+# name_match_service()
+# generate_research_labels()
+#

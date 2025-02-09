@@ -107,5 +107,5 @@ def save_to_db():
     conn.commit()
     cursor.close()
     conn.close()
-assign_judges()
-save_to_db()
+#assign_judges()
+#save_to_db()
