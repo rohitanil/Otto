@@ -31,14 +31,10 @@ CREATE TABLE poster_judge_mapping (
 );
 
 CREATE TABLE poster_score (
-    judge1_id CHAR(36) NOT NULL,
-    judge2_id CHAR(36) NOT NULL,
+    judge_id CHAR(36) NOT NULL,
     abstract_id CHAR(36) NOT NULL,
-    score1 DOUBLE NOT NULL,
-    score2 DOUBLE NOT NULL,
-    overall DOUBLE AS ((score1 + score2) / 2) VIRTUAL,  -- Use VIRTUAL instead of STORED
-    FOREIGN KEY (judge1_id) REFERENCES judges(id),
-    FOREIGN KEY (judge2_id) REFERENCES judges(id) ,
+    score DOUBLE NOT NULL,
+    FOREIGN KEY (judge_id) REFERENCES judges(id),
     FOREIGN KEY (abstract_id) REFERENCES abstracts(id)
 )ENGINE=InnoDB;
 
