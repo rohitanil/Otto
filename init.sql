@@ -38,3 +38,40 @@ CREATE TABLE poster_score (
     FOREIGN KEY (abstract_id) REFERENCES abstracts(id)
 )ENGINE=InnoDB;
 
+CREATE TABLE poster_score_summary (
+    abstract_id CHAR(36) NOT NULL,
+    average_score DOUBLE NOT NULL,
+    num_of_scores INT NOT NULL,
+    PRIMARY KEY (abstract_id),
+    FOREIGN KEY (abstract_id) REFERENCES abstracts(id)
+) ENGINE=InnoDB;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_poster_score
+AFTER INSERT ON poster_score
+FOR EACH ROW
+BEGIN
+    DECLARE avg_score DOUBLE;
+    DECLARE num_scores INT;
+
+    -- Calculate the average score and the number of scores for the given abstract_id
+    SELECT AVG(score), COUNT(*) INTO avg_score, num_scores
+    FROM poster_score
+    WHERE abstract_id = NEW.abstract_id;
+
+    -- Check if the abstract_id already exists in the poster_score_summary table
+    IF EXISTS (SELECT 1 FROM poster_score_summary WHERE abstract_id = NEW.abstract_id) THEN
+        -- Update the summary if it already exists
+        UPDATE poster_score_summary
+        SET average_score = avg_score, num_of_scores = num_scores
+        WHERE abstract_id = NEW.abstract_id;
+    ELSE
+        -- Insert a new summary entry if it doesn't exist
+        INSERT INTO poster_score_summary (abstract_id, average_score, num_of_scores)
+        VALUES (NEW.abstract_id, avg_score, num_scores);
+    END IF;
+END //
+
+DELIMITER ;
+
