@@ -56,7 +56,7 @@ These files are required for the ingestion process.
 
 ### **4️⃣ Setting Up Anthropic API Key**
 
-This project requires an Anthropic API Key for AI-based judge ranking and research label generation.
+This project requires an Anthropic API Key for AI-based judge ranking and research label generation.[How to generate Anthropic API Token?](https://docs.anthropic.com/en/api/getting-started)
 To set it up, add the key as an environment variable:
 
 ````
