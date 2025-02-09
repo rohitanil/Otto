@@ -1,5 +1,4 @@
 import pandas as pd
-import mysql.connector
 import uuid
 from db_connection import get_db_connection
 
