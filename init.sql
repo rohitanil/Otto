@@ -23,9 +23,23 @@ CREATE TABLE abstracts (
 CREATE TABLE poster_judge_mapping (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
     poster_number INT,
-    J1 DOUBLE DEFAULT 0,
-    J2 DOUBLE DEFAULT 0,
-    J3 DOUBLE DEFAULT 0,
-    J4 DOUBLE DEFAULT 0,
-    J5 DOUBLE DEFAULT 0,
+    Judge1 DOUBLE DEFAULT 0,
+    Judge2 DOUBLE DEFAULT 0,
+    Judge3 DOUBLE DEFAULT 0,
+    Judge4 DOUBLE DEFAULT 0,
+    Judge5 DOUBLE DEFAULT 0
 );
+
+CREATE TABLE poster_score (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    judge1_id CHAR(36) NOT NULL,
+    judge2_id CHAR(36) NOT NULL,
+    abstract_id CHAR(36) NOT NULL,
+    score1 DOUBLE NOT NULL,
+    score2 DOUBLE NOT NULL,
+    overall DOUBLE AS ((score1 + score2) / 2) VIRTUAL,  -- Use VIRTUAL instead of STORED
+    FOREIGN KEY (judge1_id) REFERENCES judges(id),
+    FOREIGN KEY (judge2_id) REFERENCES judges(id) ,
+    FOREIGN KEY (abstract_id) REFERENCES abstracts(id)
+)ENGINE=InnoDB;
+
