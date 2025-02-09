@@ -39,5 +39,3 @@ def get_rank():
             print('Connection closed')
 
 
-if __name__ == "__main__":
-    get_rank()

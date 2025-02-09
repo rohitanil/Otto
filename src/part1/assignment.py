@@ -76,6 +76,7 @@ def save_to_db():
     insert_query = "INSERT INTO poster_score (judge_id, abstract_id, score) VALUES (%s, %s, %s)"
 
     conn, cursor = db.get_cursor()
+    cursor = conn.cursor(buffered=True)
     for poster_id, judges in poster_assignments.items():
 
         cursor.execute(abstract_query, (poster_id,))

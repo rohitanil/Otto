@@ -23,7 +23,7 @@ def file1():
                "Judge-2"]
     df = pd.DataFrame(rows, columns=columns)
     df = df.sort_values(by="Poster Number", ascending=True)
-    excel_filename = "abstracts_with_judges.xlsx"
+    excel_filename = "output/abstracts_with_judges.xlsx"
     df.to_excel(excel_filename, index=False)
     print(f"Excel file '{excel_filename}' generated successfully.")
     cursor.close()
@@ -61,7 +61,7 @@ def file2():
 
     df = pd.DataFrame(rows, columns=columns)
     df = df.sort_values(by="Judge Number", ascending=True)
-    excel_filename = "judges_with_posters.xlsx"
+    excel_filename = "output/judges_with_posters.xlsx"
     df.to_excel(excel_filename, index=False)
     cursor.close()
     conn.close()
@@ -96,7 +96,7 @@ def file3():
     matrix_df = df.pivot(index="Poster Number", columns="Judge Number", values="Assigned").fillna(0)
 
     # Save DataFrame to an Excel file
-    excel_filename = "poster_judge_full_matrix.xlsx"
+    excel_filename = "output/poster_judge_full_matrix.xlsx"
     matrix_df.to_excel(excel_filename)
 
     # Close database connection

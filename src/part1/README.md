@@ -42,7 +42,7 @@ pip install mysql-connector-python pandas selenium openpyxl rapidfuzz anthropic
 ### **2️⃣ Database Setup**
 
 - Docker Composer should createthe db  Schema required for the project. If not, you can create the schema manually using the SQL commands in init.sql file found in root directory.  
-- Also adding a master.sql file with all of the data ( including scraping and llm responses) pre filled , for a just in case scenario if facing any issues with Anthropic Keys or miscellaneous issues. 
+- Also adding a master.sql * (resources folder) file with all of the data ( including scraping and llm responses) pre filled , for a just in case scenario if facing any issues with Anthropic Keys or miscellaneous issues. 
 
 
 ### **3️⃣ Required Input Files**

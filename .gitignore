@@ -29,3 +29,7 @@ env/
 node_modules/
 dist/
 build/
+
+# excel files
+*.xslx
+*.xls
