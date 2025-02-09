@@ -23,16 +23,16 @@ CREATE TABLE abstracts (
 CREATE TABLE poster_judge_mapping (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
     poster_number INT,
-    judge1 DOUBLE DEFAULT 0,
     judge1_id INT,
-    judge2 DOUBLE DEFAULT 0,
+    judge1_score DOUBLE DEFAULT 0.0,
     judge2_id INT,
-    judge3 DOUBLE DEFAULT 0,
+    judge2_score DOUBLE DEFAULT 0.0,
     judge3_id INT,
-    judge4 DOUBLE DEFAULT 0,
+    judge3_score DOUBLE DEFAULT 0.0,
     judge4_id INT,
-    judge5 DOUBLE DEFAULT 0,
-    judge5_id INT
+    judge4_score DOUBLE DEFAULT 0.0,
+    judge5_id INT,
+    judge5_score DOUBLE DEFAULT 0.0
 );
 
 CREATE TABLE poster_score (
@@ -56,7 +56,7 @@ CREATE TABLE poster_score_summary (
 DELIMITER //
 
 CREATE TRIGGER after_insert_poster_score
-AFTER INSERT ON poster_score
+AFTER UPDATE ON poster_score
 FOR EACH ROW
 BEGIN
     DECLARE avg_score DOUBLE;
