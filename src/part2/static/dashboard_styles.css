@@ -1,7 +1,7 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Make full-screen layout */
+/* Full-page layout with better spacing */
 html, body {
     height: 100%;
     margin: 0;
@@ -13,33 +13,38 @@ html, body {
     background-color: #f8f9fa;
 }
 
-/* Main Dashboard Container */
+/* Main Dashboard Container - Now Takes More Space */
 .dashboard-container {
-    width: 90%;
-    max-width: 1000px;
+    width: 95%;
+    max-width: 1200px;  /* Increased width */
+    min-height: 80vh;  /* Makes sure it fills the screen */
     background: white;
-    padding: 25px;
+    padding: 30px;
     border-radius: 15px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-/* Heading */
+/* Center Header */
 h2 {
     font-weight: 600;
     color: #333;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Responsive Table */
+/* Table Styling - Makes it Expand */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 14px;
+    padding: 16px;
     text-align: left;
     font-size: 16px;
 }
@@ -53,7 +58,7 @@ th {
 
 /* Score Input */
 .score-input {
-    width: 70px;
+    width: 80px;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -65,16 +70,16 @@ th {
 .submit-btn {
     background-color: #28a745;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 18px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 500;
 }
 
 .submit-btn:hover {
@@ -85,7 +90,7 @@ th {
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
     .dashboard-container {
-        width: 95%;
+        width: 98%;
         padding: 20px;
     }
     
@@ -100,7 +105,7 @@ th {
     }
 
     .submit-btn {
-        font-size: 12px;
-        padding: 8px 12px;
+        font-size: 14px;
+        padding: 10px 14px;
     }
 }
