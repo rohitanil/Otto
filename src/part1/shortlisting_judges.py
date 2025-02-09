@@ -1,6 +1,8 @@
+import uuid
+
 from db_connection import get_cursor
-
-
+import llm as llm
+import json
 
 class ResearchAbstract:
     def __init__(self, id, poster_number, title, abstract, advisor_first_name, advisor_last_name, program):
@@ -111,12 +113,32 @@ def constraint_odd_even(even,hour_available):
         return True
     return False
 
-def run():
-    abstract_dict = {}
-    for abstract in research_abstracts:
-        abstract_dict[abstract.poster_number] = constraints(abstract)
+def insert_data(data,poster_number):
+    conn, cursor = get_cursor()
 
-    for key, value in abstract_dict.items():
-        print(f"{key}: {len(value.keys())}")
+    sql = """   
+    INSERT INTO poster_judge_mapping (id, poster_number,judge1, judge1_id,judge2, judge2_id,judge3, judge3_id,judge4, judge4_id,judge5, judge5_id)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+
+    cursor.execute(sql, (str(uuid.uuid4()), poster_number, data[0]['id'], data[0]['relevance_score'], data[1]['id'], data[1]['relevance_score'], data[2]['id'], data[2]['relevance_score'], data[3]['id'], data[3]['relevance_score'], data[4]['id'], data[4]['relevance_score']))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print("Data inserted successfully!")
+
+def get_llm_scores(abstract_text,judges_dict):
+    llm.top_k_judges(abstract_text, judges_dict)
+
+def run():
+
+    for abstract in research_abstracts:
+        list_judges = constraints(abstract)
+        llm_data = get_llm_scores(abstract.abstract, list_judges)
+        json_str = json.dumps(llm_data)
+        parsed_data = json.loads(json_str)
+        insert_data(parsed_data, abstract.poster_number)
+
 
 run()

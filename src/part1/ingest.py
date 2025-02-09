@@ -11,6 +11,7 @@ def read_excel(file_path):
 
 # Insert data into judges table
 def insert_judges(data):
+    data = data.dropna()
     connection = get_db_connection()
     cursor = connection.cursor()
     query = """
@@ -37,6 +38,7 @@ def insert_judges(data):
 
 # Insert data into abstracts table
 def insert_abstracts(data):
+    data = data.dropna()
     connection = get_db_connection()
     cursor = connection.cursor()
     query = """
