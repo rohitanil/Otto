@@ -1,85 +1,132 @@
-/* Full-page centering */
+/* ===== Syracuse Mascot Image Styling ===== */
+.mascot-image {
+    width: 100%;
+    max-width: 180px; /* Adjust the size as needed */
+    margin-bottom: 15px;
+    animation: fadeIn 1s ease-in-out; /* Apply fade-in effect */
+}
+
+/* ===== Full-Page Centering with Smooth Animations ===== */
+
+/* ===== Universal Background Image Styling ===== */
 html, body {
-    height: 100%;
+    height: 100vh;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
+    font-family: 'Poppins', sans-serif;
+    background: url('/static/images/syracuse_background.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    overflow: hidden;
 }
 
-/* Login Container */
+/* ====== Fade-in Animation ====== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ====== Slide-up Animation ====== */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Glassmorphism Effect & Fade-in Animation ===== */
 .login-container {
     width: 90%;
     max-width: 400px;
     padding: 30px;
-    background: white;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
     border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
+
+    /* Apply Fade-in Effect */
+    animation: fadeIn 1s ease-in-out;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Heading */
-h2 {
-    margin-bottom: 20px;
-    font-size: 26px;
-    font-weight: bold;
-}
-
-/* Input Field */
+/* ===== Input Field Styling & Animation ===== */
 input {
+    width: 100%;
+    max-width: 350px;
     margin: 10px 0;
     padding: 12px;
-    width: 100%;
-    border: 2px solid #ccc;
+    border: none;
     border-radius: 8px;
     font-size: 18px;
     text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: all 0.3s ease-in-out;
     box-sizing: border-box;
+
+    /* Slide-up Animation */
+    animation: slideUp 1s ease-in-out 0.3s backwards;
 }
 
-/* Login Button */
+/* ===== Animated Login Button ===== */
 button {
-    background-color: #007bff;
+    width: 100%;
+    max-width: 350px;
+    background-color: #ff4b5c;
     color: white;
     padding: 12px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
-    width: 100%;
     font-size: 18px;
     font-weight: bold;
-    margin-top: 10px;
+
+    /* Slide-up Animation */
+    animation: slideUp 1s ease-in-out 0.6s backwards;
 }
 
+/* Hover Effect */
 button:hover {
-    background-color: #0056b3;
+    background-color: #e63946;
     transform: scale(1.05);
 }
 
-/* Error Message */
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
+/* ===== Animated Rankings Link ===== */
+.rankings-link {
+    display: block;
+    color: #ff4b5c;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: center;
+    transition: transform 0.3s;
+
+    /* Slide-up Animation */
+    animation: slideUp 1s ease-in-out 0.9s backwards;
 }
 
-/* Mobile Responsiveness */
+.rankings-link:hover {
+    transform: scale(1.1);
+}
+
+/* 📱 Mobile Optimization */
 @media screen and (max-width: 768px) {
     .login-container {
-        padding: 25px;
-    }
-    
-    input {
-        font-size: 16px;
-        padding: 10px;
+        width: 85%;
+        padding: 20px;
     }
 
-    button {
-        font-size: 16px;
-        padding: 10px;
+    input, button {
+        width: 100%;
+    }
+
+    .mascot-image {
+        max-width: 150px;
     }
 }

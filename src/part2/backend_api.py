@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import mysql.connector
 from flask import Flask, request, jsonify, render_template
 
@@ -176,6 +177,60 @@ def submit_score():
     except Exception as e:
         print(f"Database error: {e}")
         return jsonify({"success": False, "message": "An error occurred while submitting the score."})
+
+@app.route("/rankings")
+def rankings_page():
+    try:
+        # Load CSV file
+        csv_file_path = "resources/final_ranking.csv"
+        rankings_df = pd.read_csv(csv_file_path)
+
+        # 🔹 Normalize column names (strip spaces & convert to lowercase)
+        rankings_df.columns = rankings_df.columns.str.strip().str.lower()
+
+        # 🔹 Check actual column names
+        print("CSV Columns:", rankings_df.columns.tolist())  # Debugging output
+
+        # 🔹 Rename "poster_id" to match DB's "poster_number"
+        if "poster_id" in rankings_df.columns:
+            rankings_df.rename(columns={"poster_id": "poster_number"}, inplace=True)
+
+        # 🔹 Validate if poster_number column exists
+        if "poster_number" not in rankings_df.columns:
+            return "Error: 'poster_number' column not found in CSV after renaming."
+
+        # Connect to the database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        rankings = []
+        for _, row in rankings_df.iterrows():
+            poster_number = row["poster_number"]  # Now safely mapped
+            average_score = row.get("average_score", "N/A")  # Read from CSV
+            final_rank = row.get("final_rank", "N/A")  # Read from CSV
+
+            # 🔹 Fetch title from the database using poster_number
+            cursor.execute("SELECT title FROM abstracts WHERE poster_number = %s", (poster_number,))
+            result = cursor.fetchone()
+            title = result["title"] if result else f"Poster {poster_number} (No Title Found)"
+
+            # Append to rankings list
+            rankings.append({
+                "id": poster_number,
+                "title": title,  # Title fetched from DB
+                "average_score": average_score,  # Score from CSV
+                "final_rank": final_rank  # Rank from CSV
+            })
+
+        # Close DB connection
+        cursor.close()
+        conn.close()
+
+        # Render template with rankings data
+        return render_template("rankings.html", rankings=rankings)
+
+    except Exception as e:
+        return f"Error loading rankings: {e}"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)

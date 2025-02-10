@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster Rankings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='rankings_styles.css') }}">
+</head>
+<body>
+
+    <!-- Fireworks Container -->
+    <div class="fireworks-container"></div>
+
+    <div class="dashboard-container">
+        <h2 class="rankings-title">Final Rankings</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Poster ID</th>
+                    <th>Title</th>
+                    <th>Score</th>
+                    <th>Final Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ranking in rankings %}
+                <tr class="{% if ranking.final_rank == 1 %}highlight-first{% endif %}">
+                    <td>
+                        {% if ranking.final_rank == 1 %}🥇{% elif ranking.final_rank == 2 %}🥈{% elif ranking.final_rank == 3 %}🥉{% endif %}
+                        {{ ranking.id }}
+                    </td>
+                    <td>{{ ranking.title }}</td>
+                    <td>{{ ranking.average_score }}</td>
+                    <td>{{ ranking.final_rank }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+
+        <button class="back-btn" onclick="window.location.href='/login_page.html'">Back to Login</button>
+    </div>
+
+    <!-- Fireworks JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fireworksContainer = document.querySelector(".fireworks-container");
+
+            function createFirework() {
+                let firework = document.createElement("div");
+                firework.classList.add("firework");
+                
+                // Random position
+                let x = Math.random() * 100; // Random horizontal position
+                let y = Math.random() * 50 + 25; // Random height (avoiding bottom)
+
+                firework.style.left = x + "vw";
+                firework.style.top = y + "vh";
+
+                // Random colors for fireworks
+                const colors = ["#FFD700", "#FF4500", "#00FFFF", "#FF69B4"];
+                firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                fireworksContainer.appendChild(firework);
+
+                // Remove firework after animation
+                setTimeout(() => {
+                    firework.remove();
+                }, 2000);
+            }
+
+            // Create multiple fireworks over time
+            for (let i = 0; i < 15; i++) {
+                setTimeout(createFirework, i * 200);
+            }
+        });
+    </script>
+
+</body>
+</html>

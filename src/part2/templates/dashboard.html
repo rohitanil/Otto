@@ -32,6 +32,9 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Signout Button Moved Below the Table -->
+        <button class="signout-btn" onclick="window.location.href='/login_page.html'">Sign Out</button>
     </div>
 
     <script>
@@ -68,6 +71,29 @@
             });
         });
     </script>
+
+    <style>
+        .signout-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .signout-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+    </style>
 
 </body>
 </html>

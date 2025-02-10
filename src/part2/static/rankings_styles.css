@@ -1,0 +1,216 @@
+/* ===== Rankings Page - Bigger & Animated ===== */
+
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    background: url('/static/images/syracuse_background.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    overflow: hidden;
+}
+
+/* Fireworks Animation */
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* Individual Firework */
+.firework {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: gold;
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: explode 1.5s ease-out forwards;
+}
+
+/* 🔴 Center Back to Login Button Properly */
+.back-btn {
+    background-color: #ff4b5c;
+    color: white;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 30px;
+    transition: all 0.3s ease-in-out;
+    width: auto; /* Remove full width */
+    max-width: 300px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Center it */
+}
+
+/* 🔥 Hover Effect */
+.back-btn:hover {
+    background-color: #e63946;
+    transform: scale(1.05);
+}
+
+/* Exploding Effect */
+@keyframes explode {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(4);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(6);
+        opacity: 0;
+    }
+}
+
+/* Glassmorphism Effect - Bigger */
+.dashboard-container {
+    width: 95%;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+
+    /* 🌟 Ensure Everything is Centered */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🏆 Title Styling - White Text & Bigger */
+.rankings-title {
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Table - Increase Width & Animation */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    font-size: 20px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Table Headers - Larger Text */
+th {
+    background: rgba(0, 123, 255, 0.6);
+    color: white;
+    font-size: 22px;
+    padding: 15px;
+}
+
+/* Table Cells */
+td {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+}
+
+/* 🥇🥈🥉 Emoji Column */
+td:first-child {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* 🎖 Highlight the 1st Rank Row */
+.highlight-first {
+    background: linear-gradient(90deg, rgba(255, 223, 0, 0.4), rgba(255, 165, 0, 0.4));
+    font-weight: bold;
+    animation: pulse 1s infinite alternate;
+}
+
+/* Gold Glow Effect */
+@keyframes pulse {
+    from {
+        box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(255, 223, 0, 1);
+    }
+}
+
+/* 📱 Mobile Optimization */
+@media screen and (max-width: 768px) {
+    /* 🌟 Make Everything Centered */
+    html, body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dashboard-container {
+        width: 90%;
+        max-width: 500px; /* Adjusted for mobile */
+        padding: 20px;
+    }
+
+    table {
+        font-size: 18px;
+    }
+
+    th, td {
+        padding: 12px;
+        font-size: 18px;
+    }
+
+    /* 🔴 Ensure Button is Centered on Mobile */
+    .back-btn {
+        background-color: #ff4b5c;
+        color: white;
+        padding: 16px 24px;
+        border: none;
+        border-radius: 10px;
+        margin-top: 20px;
+        transition: all 0.3s ease-in-out;
+        width: auto;
+        max-width: 250px; /* Smaller width for mobile */
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        display: block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto; /* Ensures it's centered */
+    }
+    
+    /* 🔥 Add Hover Effect */
+    .back-btn:hover {
+        background-color: #e63946;
+        transform: scale(1.05);
+    }
+}

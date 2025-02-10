@@ -9,11 +9,18 @@
 <body>
 
     <div class="login-container">
+        <!-- Syracuse Mascot Image -->
+        <img src="{{ url_for('static', filename='images/syracuse_mascot.webp') }}" alt="Syracuse Mascot" class="mascot-image">
+
         <h2>Judge Login</h2>
         <form id="login-form">
             <input type="text" id="judge_id" placeholder="Enter Judge ID" required><br>
             <button type="button" onclick="login()">Login</button>
         </form>
+        <div class="rankings-highlight">
+            <p>Check out the latest rankings!</p>
+            <a href="/rankings" class="rankings-link">View Rankings</a>
+        </div>        
         <p id="message" class="error-message"></p>
     </div>
 
